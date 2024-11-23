@@ -1,3 +1,5 @@
+import bcrypt from "bcryptjs";
+
 import { UserCreateValidation } from "../domain/validation/userValidation";
 import { usersRepository } from "../repositories/UsersRepository";
 
@@ -10,15 +12,22 @@ interface BodyCreateUser {
 class UsersService {
   public async createUser(body: BodyCreateUser) {
     try {
-      const { error, value } = UserCreateValidation.validate(body);
+      const newPassword = await bcrypt.hash(body.password, 10);
+
+      const data = {
+        ...body,
+        password: newPassword,
+      };
+
+      const { error, value } = UserCreateValidation.validate(data);
 
       if (error) {
         throw new Error("error_validated_create_user " + error);
       }
 
-      const result = usersRepository.createUser(value);
+      await usersRepository.createUser(value);
 
-      return result;
+      return;
     } catch (error) {
       throw error;
     }
