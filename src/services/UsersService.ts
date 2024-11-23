@@ -1,4 +1,5 @@
 import { UserCreateValidation } from "../domain/validation/userValidation";
+import { usersRepository } from "../repositories/UsersRepository";
 
 interface BodyCreateUser {
   name: string;
@@ -14,8 +15,10 @@ class UsersService {
       if (error) {
         throw new Error("error_validated_create_user " + error);
       }
-      console.log("Teste");
-      return;
+
+      const result = usersRepository.createUser(value);
+
+      return result;
     } catch (error) {
       throw error;
     }
