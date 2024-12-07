@@ -13,6 +13,12 @@ interface BodyCreateUser {
 class UsersService {
   public async createUser(body: BodyCreateUser) {
     try {
+      const checkEmail = await usersRepository.findEmail(body.email);
+
+      if(checkEmail) {
+        throw new Error("email_already_exists ");
+      }
+
       const { error, value } = UserCreateValidation.validate(body);
 
       const newPassword = await bcrypt.hash(value.password, 10);
