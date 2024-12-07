@@ -7,25 +7,27 @@ interface BodyCreateUser {
   name: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
 class UsersService {
   public async createUser(body: BodyCreateUser) {
     try {
-      const newPassword = await bcrypt.hash(body.password, 10);
+      const { error, value } = UserCreateValidation.validate(body);
+
+      const newPassword = await bcrypt.hash(value.password, 10);
 
       const data = {
-        ...body,
+        name: value.name,
+        email: value.email,
         password: newPassword,
       };
-
-      const { error, value } = UserCreateValidation.validate(data);
 
       if (error) {
         throw new Error("error_validated_create_user " + error);
       }
 
-      await usersRepository.createUser(value);
+      await usersRepository.createUser(data);
 
       return;
     } catch (error) {

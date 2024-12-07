@@ -15,6 +15,7 @@
     "@types/config": "^3.3.5",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.12",
+    "cors": "^2.8.5",
     "express": "^4.21.1",
     "joi": "^17.13.3",
     "mongoose": "^8.8.2",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.9.1",
     "@types/winston": "^2.4.4",
