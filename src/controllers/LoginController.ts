@@ -7,7 +7,6 @@ class LoginControllers {
     try {
       const { body } = req;
       const result = await loginService.login(body);
-
       logger.info("Login realizado com sucesso!");
       res.status(200).json({ message: "login_successfully", result });
     } catch (error: any) {

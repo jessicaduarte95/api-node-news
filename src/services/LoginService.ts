@@ -1,4 +1,6 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import config from "config";
 
 import { LoginValidation } from "../domain/validation/loginValidations";
 import { usersRepository } from "../repositories/UsersRepository";
@@ -17,6 +19,12 @@ class LoginService {
         throw new Error("error_validated_login " + error);
       }
 
+      const jwt_secret = config.get<string>("jwt_secret");
+
+      if (!jwt_secret) {
+        throw new Error("JWT secret is not configured.");
+      }
+
       const data = await usersRepository.findEmail(value.email);
 
       if (!data) {
@@ -29,7 +37,20 @@ class LoginService {
         throw new Error("incorrect_password");
       }
 
-      return;
+      const token = jwt.sign(
+        { userId: data._id, email: data.email, name: data.name },
+        jwt_secret,
+        { expiresIn: "10min" }
+      );
+
+      const result = {
+        token,
+        userId: data._id,
+        email: data.email,
+        name: data.name,
+      };
+
+      return result;
     } catch (error) {
       throw error;
     }
