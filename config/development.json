@@ -3,10 +3,11 @@
     "environment": "development",
     "server": {
       "host": "0.0.0.0",
-      "port": 8080
+      "port": 3000
     },
     "database": {
       "url": "localhost:27017",
       "dbname": "news"
-    }
+    },
+    "jwt_secret": "xxxx"
   }

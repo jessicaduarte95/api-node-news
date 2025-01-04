@@ -4,6 +4,7 @@ import config from "config";
 import cors from "cors";
 
 import UserRouters from "./routers/UsersRoute";
+import LoginRouters from "./routers/LoginRoute";
 
 interface Server {
   host: string;
@@ -13,12 +14,12 @@ interface Server {
 const app: Application = express();
 app.use(express.json());
 
-// Cors 
+// Cors
 app.use(
   cors({
-    origin: "http://localhost:8081",
+    origin: "http://localhost:8080",
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"]
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -31,6 +32,7 @@ connectDB();
 
 // Routers
 app.use(UserRouters);
+app.use(LoginRouters);
 
 app.listen(PORT, () => {
   console.log(`Server is running on https://${HOST}:${PORT}`);
