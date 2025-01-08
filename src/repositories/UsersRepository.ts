@@ -13,6 +13,9 @@ class UsersRepository {
   public async findEmail(email: string) {
     return usersModel.findOne({email});
   }
+  public async findById(useId: string) {
+    return usersModel.findById({_id: useId});
+  }
 }
 
 export const usersRepository = new UsersRepository();

@@ -3,6 +3,7 @@ import { connectDB } from "./db/database";
 import config from "config";
 import cors from "cors";
 
+import AuthRoute from "./routers/AuthRoute";
 import UserRouters from "./routers/UsersRoute";
 import LoginRouters from "./routers/LoginRoute";
 
@@ -20,6 +21,7 @@ app.use(
     origin: "http://localhost:8080",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
   })
 );
 
@@ -31,6 +33,7 @@ const HOST = server.host;
 connectDB();
 
 // Routers
+app.use(AuthRoute);
 app.use(UserRouters);
 app.use(LoginRouters);
 
