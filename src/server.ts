@@ -6,6 +6,7 @@ import cors from "cors";
 import AuthRoute from "./routers/AuthRoute";
 import UserRouters from "./routers/UsersRoute";
 import LoginRouters from "./routers/LoginRoute";
+import PostRouters from "./routers/PostService";
 
 interface Server {
   host: string;
@@ -36,6 +37,7 @@ connectDB();
 app.use(AuthRoute);
 app.use(UserRouters);
 app.use(LoginRouters);
+app.use(PostRouters);
 
 app.listen(PORT, () => {
   console.log(`Server is running on https://${HOST}:${PORT}`);
