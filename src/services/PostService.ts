@@ -1,6 +1,11 @@
-import { usersRepository } from "../repositories/UsersRepository";
+import { PostCreateValidation } from "../domain/validation/postValidation";
 
-interface BodyRegisterPost {}
+import { usersRepository } from "../repositories/UsersRepository";
+import { postsRepository } from "../repositories/PostsRepository";
+
+interface BodyRegisterPost {
+  content: string;
+}
 
 class PostService {
   async registerPost(id: string, body: BodyRegisterPost) {
@@ -9,7 +14,21 @@ class PostService {
       if(!checkUser) {
         throw new Error("user_not_found ");
       }
-      console.log("User: ", checkUser);
+
+      const { error, value } = PostCreateValidation.validate(body);
+
+      if (error) {
+        throw new Error("error_validated_create_post " + error);
+      }
+
+      const data = {
+        userId: id,
+        post: value.content
+      }
+
+      await postsRepository.createPost(data);
+
+      return;
     } catch (error) {
       throw error;
     }
